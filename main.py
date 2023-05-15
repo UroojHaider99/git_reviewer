@@ -36,7 +36,24 @@ def process_files(path):
 
             # Limit the length of the code for summarization
             if len(content) > 4000:
-                summary += f"{file['name']}: too long to summarize\n\n"
+                # Split the content into smaller chunks
+                chunks = [content[i:i + 4000] for i in range(0, len(content), 4000)]
+
+                # Process each chunk and concatenate the summaries
+                chunk_summaries = []
+                for chunk in chunks:
+                    result = openai.Completion.create(
+                        engine="text-davinci-002",
+                        prompt=f"Summarize this {file['name'].split('.')[-1]} code:\n\n{chunk}",
+                        max_tokens=60,
+                        n=1,
+                        stop=None,
+                        temperature=0.5,
+                    )
+                    chunk_summaries.append(result.choices[0].text)
+
+                # Join the chunk summaries into a single summary
+                summary += f"{file['name']}:\n{' '.join(chunk_summaries)}\n\n"
             else:
                 # Call the OpenAI API to summarize the code
                 result = openai.Completion.create(
