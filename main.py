@@ -45,7 +45,7 @@ def process_files(path):
                     result = openai.Completion.create(
                         engine="text-davinci-002",
                         prompt=f"Summarize this {file['name'].split('.')[-1]} code:\n\n{chunk}",
-                        max_tokens=60,
+                        max_tokens=200,
                         n=1,
                         stop=None,
                         temperature=0.5,
@@ -59,7 +59,7 @@ def process_files(path):
                 result = openai.Completion.create(
                     engine="text-davinci-002",
                     prompt=f"Summarize this {file['name'].split('.')[-1]} code:\n\n{content}",
-                    max_tokens=60,
+                    max_tokens=200,
                     n=1,
                     stop=None,
                     temperature=0.5,
