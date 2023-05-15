@@ -35,7 +35,7 @@ def process_files(path):
             content = requests.get(file['download_url'], headers=headers).text
 
             # Limit the length of the code for summarization
-            if len(content) > 5000:
+            if len(content) > 20000:
                 summary += f"{file['name']}: too long to summarize\n\n"
             else:
                 # Call the OpenAI API to summarize the code
